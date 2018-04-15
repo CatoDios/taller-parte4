@@ -73,7 +73,7 @@ class LoginForm extends React.Component {
       <form>
           <div className="center datos">
             <div>
-            <i class="material-icons">person</i>
+            <i className="material-icons">person</i>
             </div>
             <b>Nombres y Apellidos:</b>
             <div className="center">

@@ -5,7 +5,7 @@ class TableHeader extends React.Component {
   render() {
     return(
     <thead>
-			<tr>
+			<tr>      <th className="th">SELECCIONAR</th>
                 <th className="th">IDPAGO</th>
                 <th className="th">MONEDA</th>
                 <th className="th">CONCEPTO</th>

@@ -13,6 +13,8 @@ class Imprimir extends React.Component {
   Imprimir(){
     console.log(this.props.listado);
 
+    var checkbox_selec=[];
+    var checks=[];
     var alumno = this.props.alumno;
     var nombres = alumno.nomApe;
     var codigo= alumno.codigo;
@@ -21,11 +23,30 @@ class Imprimir extends React.Component {
 
     var listadopagos = this.props.listado;
     var listado = [];
+    var total=[];
+    var checks=document.getElementsByClassName("checkbox1");
+   var checks_normales=Array.from(checks);
+   checks_normales.map((checkbox)=>{
+     if(checkbox.checked){
+       checkbox_selec.push(checkbox.id);
+     }
+   });
+   console.log(checkbox_selec);
+
+   for(let i=0;i<checkbox_selec.length;i++){
+      var id=checkbox_selec[i];
+      for(let j=0;j<listadopagos.length;j++){
+        if(listadopagos[j].idRec==id){
+            total.push(listadopagos[j]);
+        }
+      }
+   }
+    console.log(total);
 
 
-    for (let i = 0; i<listadopagos.length; i++) {
-      var pago = [listadopagos[i].idRec,listadopagos[i].moneda, listadopagos[i].concepto.a+'-'+listadopagos[i].concepto.b,listadopagos[i].numero,
-      listadopagos[i].fecha,listadopagos[i].alumno.idAlum,listadopagos[i].alumno.facultad.nombre,listadopagos[i].importe]
+    for (let i = 0; i<total.length; i++) {
+      var pago = [total[i].idRec,total[i].moneda, total[i].concepto.a+'-'+total[i].concepto.b,total[i].numero,
+      total[i].fecha,total[i].alumno.idAlum,total[i].alumno.facultad.nombre,total[i].importe]
       listado.push(pago);
     }
     console.log(listado);

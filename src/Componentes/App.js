@@ -25,6 +25,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      checkbox_:[],
       filtros: [],
       pagocero: [],
       pagos: [],
@@ -41,9 +42,12 @@ class App extends React.Component {
     this.select = [];
     this.onChangePage = this.onChangePage.bind(this);
   }
+
+ 
   componentWillMount() {
     this.pageOfItems = this.pagocero;
     var nombres = this.state.name;
+    
 
     fetch('https://modulo-alumno-zuul.herokuapp.com/modulo-alumno-client/recaudaciones/listar/' + nombres)
       .then((response) => {
@@ -53,13 +57,56 @@ class App extends React.Component {
         this.setState({
           pagocero: pagos,
           pagos: pagos
+        },
+
+        );
+        
+        
+       /* console.log("hola");
+      var total=this.state.pagocero;
+      this.state.pagos.map((pago)=>{
+        pago.check=false;
+      });
+      console.log(this.state.pagocero);
+      var checkbox=document.getElementsByClassName("checkbox");
+      console.log(checkbox);
+      var arr = Array.from(checkbox);
+      console.log(arr);
+      for(let j=0;j<arr.length;j++){
+        var codigos=[];
+        arr[j].addEventListener('click',function(){
+          
+          var id=arr[j].id;
+          console.log(id);
+          for(let i=0;i<total.length;i++){
+            
+            if(total[i].idRec==id){
+              
+             if(arr[j].checked){
+               codigos.push(total[i].idRec);
+               
+             }else{
+               codigos.splice(j,1);
+               
+             }
+            }
+          }
+          
         })
-      })
+        
+      } */ 
+      
+      }
+      
+      
+
+    
+    )
       .catch(error => {
         // si hay algún error lo mostramos en consola
         console.error(error)
       });
-
+      
     fetch('https://modulo-alumno-zuul.herokuapp.com/modulo-alumno-client/concepto/leer/' + nombres)
       .then((response) => {
         return response.json()
@@ -71,6 +118,9 @@ class App extends React.Component {
         // si hay algún error lo mostramos en consola
         console.error(error)
       });
+
+
+    
 
   }
 
@@ -113,7 +163,7 @@ class App extends React.Component {
                 <TableHeader />
                 <PagoList listado={this.state.pageOfItems} />
               </table>
-              <div className="margen_top"> <Paginacion items={this.state.pagocero} onChangePage={this.onChangePage} /></div>
+              <div className="margen_top"> <Paginacion items={this.state.pagocero} onChangePage={this.onChangePage} onClick="checks"/></div>
               <div className="SplitPane">
                 <div className="SplitPane-left">
                   <Importe importe={this.CalcularImporte()} />
@@ -131,6 +181,8 @@ class App extends React.Component {
       return <p className="text-center">Cargando Estado de pagos de alumno</p>
     }
   }
+
+
   CalcularImporte() {
     let pagos = this.state.pagocero;
     let importe = 0;
@@ -157,10 +209,12 @@ class App extends React.Component {
           //this.setState({pagocero: []})
           filtrado = this.state.pagos;
           console.log(filtrado);
+          
         }
         else {
           filtrado = pagos;
           console.log(filtrado);
+          console.log(this.state.pagocero);
 
         }
 
@@ -226,8 +280,33 @@ class App extends React.Component {
 
 
   onChangePage(pageOfItems) {
+    var total=[];
+    var checkbox_selec=[];
+    console.log("hola");
+    var checks=document.getElementsByClassName("checkbox1");
+   var checks_normales=Array.from(checks);
+   checks_normales.map((checkbox)=>{
+     if(checkbox.checked){
+       checkbox_selec.push(checkbox.id);
+       
+     }
+   });
+   console.log(checkbox_selec);
+   console.log(this.state.checkbox_);
+
+   for(let i=0;i<checkbox_selec.length;i++){
+    var id=checkbox_selec[i];
+    for(let j=0;j<this.state.pagocero.length;j++){
+      if(this.state.pagocero[j].idRec==id){
+          total.push(this.state.pagocero[j]);
+      }
+    }
+ }
     // update state with new page of items
-    this.setState({ pageOfItems: pageOfItems });
+    this.setState({ 
+      checkbox_:total,
+      pageOfItems: pageOfItems });
+     
   }
 
 
@@ -304,7 +383,7 @@ class App extends React.Component {
     console.log(arrayfiltrado);
 
     if (listaNumeros_seleccionados.length == 0) {
-      alert("Ingrese uno o mas numeros de recibos")
+      
       this.setState({
         pagocero: arrayfiltrado
       })
@@ -313,7 +392,7 @@ class App extends React.Component {
     }
     else {
       if (arrayfiltrado.length == 0) {
-        alert("No hay registro con los numeros de voucher ingresados");
+        
         this.setState({
           pagocero: arrayfiltrado
         })
@@ -332,8 +411,9 @@ class App extends React.Component {
         }
 
         if (filtrofinal.length == 0) {
+          alert("No hay registros.Se volverán a cargar todos")
           this.setState({
-            pagocero: arrayfiltrado
+            pagocero: this.state.pagos
           })
         } else {
           this.setState({
@@ -341,17 +421,18 @@ class App extends React.Component {
           })
         }
 
-
+       
         console.log(arrayfiltrado);
+        console.log(this.state.pagocero);
 
       }
     }
 
-
+    
 
   }
 
-
+    
 
 
 
