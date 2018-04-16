@@ -196,17 +196,25 @@ class App extends React.Component {
       return <p className="text-center">Cargando Estado de pagos de alumno</p>
     }
   }
-  Funcion(selec){
-    console.log(selec);
-    for(let i=0;i<selec.length;i++){
-      var m=selec[i];
-      for(let j=0;j<this.state.pagocero.length;j++){
-        if(m==this.state.pagocero[j].idRec){
+  Funcion(holas){
+    console.log(holas);
+    for(let j=0;j<this.state.pagocero.length;j++){
+      if(holas==this.state.pagocero[j].idRec){
+        if(this.state.pagocero[j].check==true){
+          this.state.pagocero[j].check=false;
+        }else{
           this.state.pagocero[j].check=true;
         }
       }
     }
-    console.log(this.state.pagocero);
+    /* for(let i=0;i<selec.length;i++){
+      var m=select[i];
+      for(let j=0;j<this.state.pagocero;j++){
+        if(m==this.state.pagocero[j].idRec){
+          this.state.pagocero[j].check=true;
+        }
+      }
+    } */
 
   }
 seleccionar(){
@@ -237,7 +245,7 @@ seleccionar(){
             todos:false
           })
           this.state.pagocero.map((pago)=>{
-            pago.check=false;
+            pago.check=true;
           })
         }   
 

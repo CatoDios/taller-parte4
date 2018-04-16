@@ -3,9 +3,11 @@ import React from 'react'
 class PagoRow extends React.Component {
   
   colocar=()=>{
-    
-    console.log("x");
-    var selec=[];
+    var hola=document.getElementById(this.props.pago.idRec);
+    console.log(hola.id);
+    var holas=hola.id;
+    this.props.Funciones(holas);
+   /*  var selec=[];
    var check=document.getElementsByClassName("checkbox1");
     var normal=Array.from(check);
     for(let i=0; i<normal.length;i++){
@@ -14,8 +16,12 @@ class PagoRow extends React.Component {
       }
     } 
     console.log(selec);
-    this.props.Funciones(selec);
-  }
+     */
+
+    
+
+    }
+  
 
   render() {
     return(
