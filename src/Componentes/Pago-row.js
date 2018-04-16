@@ -1,16 +1,32 @@
 import React from 'react'
 
 class PagoRow extends React.Component {
+  
+  colocar=()=>{
+    
+    console.log("x");
+    var selec=[];
+   var check=document.getElementsByClassName("checkbox1");
+    var normal=Array.from(check);
+    for(let i=0; i<normal.length;i++){
+      if(normal[i].checked==true){
+        selec.push(normal[i].id);
+      }
+    } 
+    console.log(selec);
+    this.props.Funciones(selec);
+  }
 
   render() {
     return(
     <tr>
       <td className="td">
       <form action="#">
-              <label className="row center-xs">
+              <label className="row center-xs color_white">
                   <input
+                  onClick={this.colocar}
                     className="checkbox1"
-                    name="chekbox"
+                    //name="chekbox"
                     id={this.props.pago.idRec}
                     type="checkbox" />
                     <span> </span>

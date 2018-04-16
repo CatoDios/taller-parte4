@@ -25,6 +25,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      todos:false,
       checkbox_:[],
       filtros: [],
       pagocero: [],
@@ -41,12 +42,24 @@ class App extends React.Component {
 
     this.select = [];
     this.onChangePage = this.onChangePage.bind(this);
+    this.seleccionar=this.seleccionar.bind(this);
+    this.enviar=this.enviar.bind(this);
+    this.Funcion=this.Funcion.bind(this);
+    
   }
 
  
   componentWillMount() {
     this.pageOfItems = this.pagocero;
+    var checkbox_selec=[];
     var nombres = this.state.name;
+    var checks=document.getElementsByClassName("checkbox1");
+    var checks_normales=Array.from(checks);
+    checks_normales.map((checkbox)=>{
+     if(checkbox.checked){
+       checkbox_selec.push(checkbox.id);
+     }
+   });
     
 
     fetch('https://modulo-alumno-zuul.herokuapp.com/modulo-alumno-client/recaudaciones/listar/' + nombres)
@@ -62,12 +75,13 @@ class App extends React.Component {
         );
         
         
-       /* console.log("hola");
+        console.log("hola");
       var total=this.state.pagocero;
-      this.state.pagos.map((pago)=>{
-        pago.check=false;
-      });
-      console.log(this.state.pagocero);
+     
+     this.state.pagocero.map((pago)=>{
+       pago.check=false
+     })
+      console.log(this.state.pagocero);/*
       var checkbox=document.getElementsByClassName("checkbox");
       console.log(checkbox);
       var arr = Array.from(checkbox);
@@ -159,17 +173,18 @@ class App extends React.Component {
           <hr />
           <div className="SplitPane row center-xs">
             <div className="  center-xs-12">
+              <button onClick={this.seleccionar} className="waves-effect waves-light btn-large botonazul2 center"></button>
               <table className=" total table ">
                 <TableHeader />
-                <PagoList listado={this.state.pageOfItems} />
+                <PagoList  funcion={this.Funcion} listado={this.state.pageOfItems} />
               </table>
-              <div className="margen_top"> <Paginacion items={this.state.pagocero} onChangePage={this.onChangePage} onClick="checks"/></div>
+              <div className="margen_top"> <Paginacion items={this.state.pagocero} onChangePage={this.onChangePage}/></div>
               <div className="SplitPane">
                 <div className="SplitPane-left">
                   <Importe importe={this.CalcularImporte()} />
                 </div>
                 <div className="SplitPane-right">
-                  <Imprimir listado={this.state.pagocero} alumno={this.state.pagos[0].alumno} importe = {this.CalcularImporte()}/>
+                  <Imprimir onClick={this.enviar} listado={this.state.pagocero} alumno={this.state.pagos[0].alumno} importe = {this.CalcularImporte()}/>
                 </div>
               </div>
             </div>
@@ -181,8 +196,58 @@ class App extends React.Component {
       return <p className="text-center">Cargando Estado de pagos de alumno</p>
     }
   }
+  Funcion(selec){
+    console.log(selec);
+    for(let i=0;i<selec.length;i++){
+      var m=selec[i];
+      for(let j=0;j<this.state.pagocero.length;j++){
+        if(m==this.state.pagocero[j].idRec){
+          this.state.pagocero[j].check=true;
+        }
+      }
+    }
+    console.log(this.state.pagocero);
+
+  }
+seleccionar(){
+  console.log("gg");
+  var checks=document.getElementsByClassName("checkbox1");
+  for (let i=0;i<checks.length;i++) {
+            if(this.state.todos==false){
+              checks[i].checked=true; 
+              
+            }
+            else{
+              checks[i].checked=false; 
+             
+            }
+            
+          
+
+}
+ if(this.state.todos==false){
+          this.setState({
+            todos:true
+          })
+          this.state.pagocero.map((pago)=>{
+            pago.check=true;
+          })
+        }else{
+          this.setState({
+            todos:false
+          })
+          this.state.pagocero.map((pago)=>{
+            pago.check=false;
+          })
+        }   
 
 
+        
+}
+enviar(){
+  console.log("lo que envio:");
+  console.log(this.state.pagocero);
+}
   CalcularImporte() {
     let pagos = this.state.pagocero;
     let importe = 0;
@@ -211,9 +276,24 @@ class App extends React.Component {
           console.log(filtrado);
           
         }
-        else {
+        else {pagos.map((pago)=>{
+          pago.check=false;
+        });
           filtrado = pagos;
           console.log(filtrado);
+          var checkado=document.getElementsByName("chekado");
+          var normals=Array.from(checkado);
+          for(let i=0;i<normals;i++){
+            
+            for(let j=0;j<this.state.pagocero;j++){
+              if(normals[i].id==this.state.pagocero[j].idRec){
+                  this.state.pagocero[j].check=true;
+              }
+              else{
+                this.state.pagocero[j].check=false;
+              }
+            }
+          }
           console.log(this.state.pagocero);
 
         }
@@ -280,6 +360,7 @@ class App extends React.Component {
 
 
   onChangePage(pageOfItems) {
+    
     var total=[];
     var checkbox_selec=[];
     console.log("hola");
@@ -470,10 +551,11 @@ class App extends React.Component {
     }*/
 
 
-
+    
 
 
 }
+
 
 class Paginacion extends React.Component {
   constructor(props) {

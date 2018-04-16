@@ -32,15 +32,15 @@ class Imprimir extends React.Component {
      }
    });
    console.log(checkbox_selec);
+   
 
-   for(let i=0;i<checkbox_selec.length;i++){
-      var id=checkbox_selec[i];
+   
       for(let j=0;j<listadopagos.length;j++){
-        if(listadopagos[j].idRec==id){
+        if(listadopagos[j].check==true){
             total.push(listadopagos[j]);
         }
       }
-   }
+   
     console.log(total);
 
 
