@@ -155,7 +155,7 @@ class App extends React.Component {
                 <div className=" inline col-xs-4">
                   <FiltroFecha Fechas={this.FiltrarFecha} />
                 </div >
-                <div className="row center-xs-4 block">
+                <div className="row center-xs-4 block ">
                   <h4 className=" centrar margen_top espacio">Conceptos</h4>
                   <div className="scroll center-xs ">
                     <form action="#"><ConceptoList listado={this.conceptos} /></form>
@@ -171,9 +171,17 @@ class App extends React.Component {
             </div>
           </div>
           <hr />
+          <div className="margen2">
+            <button onClick={this.seleccionar} className="waves-effect waves-light btn-small botonazul2 start">
+            Seleccionar todo<i className="large material-icons left">check</i>
+
+
+            </button>
+            
+            </div>                        
+
           <div className="SplitPane row center-xs">
             <div className="  center-xs-12">
-              <button onClick={this.seleccionar} className="waves-effect waves-light btn-large botonazul2 center"></button>
               <table className=" total table ">
                 <TableHeader />
                 <PagoList  funcion={this.Funcion} listado={this.state.pageOfItems} />

@@ -53,10 +53,14 @@ class NumeroRecibo extends React.Component {
       console.log(indice);
       listaActual.splice(indice,1);*/
       listaActual = this.state.listaNumeros.filter(h => h !== num)
+      console.log("lista actual:");
+      console.log(listaActual);
       this.setState({
         listaNumeros: listaActual
-      })
-  
+      });
+      this.props.Numeros(listaActual);
+      console.log("lista numeros");
+      console.log(this.state.listaNumeros);
     }
 
     render() {
