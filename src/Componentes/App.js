@@ -31,7 +31,8 @@ class App extends React.Component {
       pagocero: [],
       pagos: [],
       name: this.props.params.name,
-      pageOfItems: []
+      pageOfItems: [],
+      estado:0
     }
     this.conceptos = []
     this.alumno = ''
@@ -47,8 +48,32 @@ class App extends React.Component {
     this.Funcion=this.Funcion.bind(this);
     
   }
+componentDidUpdate(){
+    if(this.state.estado!=0){
+      var checks=document.getElementsByClassName("checkbox1");
+      /*console.log(checks[0].id);
+      console.log(this.state.estado);
+      checks[0].checked=true;*/
 
- 
+      for(let i=0;i<checks.length;i++){
+         var id=checks[i].id;
+         for(let j=0;j<this.state.pagocero.length;j++){
+             var codigo=this.state.pagocero[j].idRec;
+             if(this.state.pagocero[j].check==true){
+               if(id==codigo){
+                 checks[i].checked=true;
+
+               }
+             }
+         
+        }
+
+        }
+       }
+       else{
+         this.setState({estado:1})
+        }
+ }
   componentWillMount() {
     this.pageOfItems = this.pagocero;
     var checkbox_selec=[];
@@ -403,6 +428,8 @@ enviar(){
     this.setState({ 
       checkbox_:total,
       pageOfItems: pageOfItems });
+
+   
      
   }
 
