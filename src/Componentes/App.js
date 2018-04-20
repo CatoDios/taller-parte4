@@ -278,7 +278,7 @@ seleccionar(){
             todos:false
           })
           this.state.pagocero.map((pago)=>{
-            pago.check=true;
+            pago.check=false;
           })
         }   
 
